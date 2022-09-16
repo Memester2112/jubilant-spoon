@@ -1,40 +1,30 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const path = require('path');
+const app = express();
 
-const homePage = fs.readFileSync('./navbar-app/index.html');
-const homeStyles = fs.readFileSync('./navbar-app/styles.css');
-const homeLogo = fs.readFileSync('./navbar-app/logo.svg');
-const homeLogic = fs.readFileSync('./navbar-app/browser-app.js');
+const {products} = require('./data.js');
 
-const server = http.createServer((req,res)=>{
-    const url = req.url;
-    console.log(url);
-    if (url === '/') {
-        res.writeHead(200, {'content-type': 'text/html'});
-        res.end(homePage);
-    }
-    else if (url === '/styles.css') {
-        res.writeHead(200, {'content-type': 'text/css'});
-        res.end(homeStyles);
-    }
-    else if (url === '/logo.svg') {
-        res.writeHead(200, {'content-type': 'image/svg+xml'});
-        res.end(homeLogo);
-    }
-    else if (url === '/browser-app.js') {
-        res.writeHead(200, {'content-type': 'text/javascript'});
-        res.end(homeLogic);
-    }
-    
-    else if (url === '/contact'){
-        res.writeHead(200, {'content-type': 'text/html'});
-        res.end('<h1>CONTACT PAGE</h1>');
-    }
-    else {
-        res.writeHead(404, {'content-type': 'text/html'});
-        res.end('<h1>Page not found</h1>');
-    }
-
+app.get('/', (req, res)=> {
+    res.send('<h1>Home page</h1><a href="/api/products">Products</a>');
 });
 
-server.listen(5000);
+app.get('/api/products', (req,res)=> {
+    const newProducts = products.map((product)=>{
+        const {id,name,image} = product;
+        return {id,name,image};
+    });
+    res.json(newProducts);
+});
+
+app.get('/api/products/:productID', (req,res)=> {
+    const product = products.find((p)=> p.id === Number(req.params["productID"]));
+    if(!product) {
+        return res.status(404).send('Product DNE');
+    }
+    res.json(product);
+})
+
+app.listen(5000, ()=>{
+    console.log("Server is listening...");
+});
+
