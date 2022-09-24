@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="color:brown; background-color: forestgreen;">
+    <h1 style="text-align:center;color: aquamarine;">
+        Oops! The requested resource does not exist.
+    </h1>
+    <h2 id="magic-text"> Button has not been pressed</h2>
+    <button style="margin: 20px; color: red" onclick="clicked_func()"> Press me </button>
+    <input type="radio" name="Radio Button 1" id="1" aria-checked="false">
+    <input type="radio" name="Radio Button 2" id="2" aria-multiline="true">
+    <input type="radio" name="Radio Button 3" id="3">
+    <script>
+        var i = 0;
+        function clicked_func() {
+            i += 1;
+            let magic_text = document.querySelector("#magic-text")
+            magic_text.innerHTML = `button has been pressed ${i} times`
+        }
+
+    </script>
+</body>
+</html>
