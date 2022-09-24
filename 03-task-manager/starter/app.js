@@ -4,13 +4,13 @@ const app = express();
 const tasks = require('./routes/tasks');
 require('dotenv').config()
 //middleware
+app.use(express.static('./public_starter'))
 app.use(express.json());
 
 //routes 
-app.get('/hello', (req, res) => {
-    res.send('Task Manager');
-})
-
+// app.get('/hello', (req, res) => {
+//     res.send('Task Manager');
+// })
 app.use('/api/v1/tasks', tasks)
 
 
